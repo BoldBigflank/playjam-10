@@ -16,6 +16,7 @@ Z_INDEXES = {
     Particle = 15,
     Ball = 20,
     Wall = 30,
+    Player = 35,
     Bullet = 100,
     UI = 1000
 }

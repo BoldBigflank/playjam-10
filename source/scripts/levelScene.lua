@@ -32,10 +32,10 @@ function LevelScene:setupEntities()
     end
 
     self.walls = {}
-    self.walls[1] = Wall({ x = 16, y = 8, width = 256, height = 16, direction = DIRECTIONS.Right })
-    self.walls[2] = Wall({ x = 16, y = 192, width = 256, height = 16, direction = DIRECTIONS.Right })
-    self.walls[3] = Wall({ x = 8, y = 0, width = 16, height = 192, direction = DIRECTIONS.Down })
-    self.walls[4] = Wall({ x = 256 + 16, y = 0, width = 16, height = 192, direction = DIRECTIONS.Down })
+    self.walls[1] = Wall({ x = 16, y = 8, width = 400 - 32, height = 16, direction = DIRECTIONS.Right })
+    self.walls[2] = Wall({ x = 16, y = 240 - 8, width = 400 - 32, height = 16, direction = DIRECTIONS.Right })
+    self.walls[3] = Wall({ x = 8, y = 0, width = 16, height = 240, direction = DIRECTIONS.Down })
+    self.walls[4] = Wall({ x = 400 - 8, y = 0, width = 16, height = 240, direction = DIRECTIONS.Down })
 end
 
 function LevelScene:update()

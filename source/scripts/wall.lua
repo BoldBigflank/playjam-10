@@ -4,10 +4,12 @@ local gfx <const> = pd.graphics
 class('Wall').extends(gfx.sprite)
 
 function Wall:init(entity)
-    printTable(entity)
     self.nineSlice = gfx.nineSlice.new('images/wall', 8, 8, 16, 16)
     Wall.super.init(self)
     self:setZIndex(Z_INDEXES.Wall)
+    self:setTag(TAGS.Wall)
+    self:setGroups({ TAGS.Wall })
+    self:setCollidesWithGroups({ TAGS.Ball })
 
     -- Settings
     self.height = entity.height or 16
@@ -35,6 +37,7 @@ function Wall:init(entity)
 end
 
 function Wall:update()
+    self:setCollideRect(0, 0, self:getSize())
     -- print(self.x, self.y, self.width, self.height)
     -- self:setSize(self.width, self.height)
 end

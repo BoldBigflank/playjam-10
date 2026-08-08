@@ -6,19 +6,31 @@ class('Ball').extends(gfx.sprite)
 function Ball:init()
     local spritesheet = Utils:getSpritesheet()
     Ball.super.init(self)
+    self.width = 16
+    self.height = 16
+    self:setSize(self.width, self.height)
+    self.collideWidth = self.width - 4
+    self.collideHeight = self.height - 4
 
     -- Sprite
     self:setZIndex(Z_INDEXES.Ball)
-    self:setCollideRect(0, 0, self:getSize())
+    self:setCollideRect(
+        0.5 * (self.width - self.collideWidth),
+        0.5 * (self.height - self.collideHeight),
+        self.collideWidth,
+        self.collideHeight
+    )
     self:setImage(spritesheet:getImage(SPRITES.BulletLarge))
     self:setTag(TAGS.Ball)
     self:setGroups({ TAGS.Ball })
-    self:setCollidesWithGroups({ TAGS.Player })
+    self:setCollidesWithGroups({ TAGS.Wall, TAGS.Ball })
+
 
     -- Settings
     self.x = 200
     self.y = 100
-    self.speed = 3
+    self.speed = 1
+    self.angle = math.random() * 2 * math.pi
     self.rot = 0
 
     self:moveTo(self.x, self.y)
@@ -26,5 +38,27 @@ function Ball:init()
 end
 
 function Ball:update()
-    self:moveTo(self.x + self.speed * math.cos(self.rot), self.y + self.speed * math.sin(self.rot))
+    local goalX, goalY = Utils:moveForwardAtAngle(self.x, self.y, self.angle, self.speed)
+    local actualX, actualY, collisions, length = self:moveWithCollisions(goalX, goalY)
+    if length > 0 then
+        for i = 1, length do
+            local collision = collisions[i]
+            local bounce = collision.bounce
+            local touch = collision.touch
+
+            -- set the angle to the vector created by touch to bounce
+            if touch and bounce then
+                local angle = Utils:lookAt(touch.x, touch.y, bounce.x, bounce.y)
+                self.angle = angle
+            end
+        end
+    end
+end
+
+function Ball:collisionResponse(other)
+    local tag = other:getTag()
+    if tag == TAGS.Player or tag == TAGS.Ball then
+        return gfx.sprite.kCollisionTypeOverlap
+    end
+    return gfx.sprite.kCollisionTypeBounce
 end
