@@ -40,4 +40,6 @@ end
 
 function LevelScene:update()
     self.player:update()
+    local change, acceleratedChange = pd.getCrankChange()
+    Events:emit(EVENTS.CrankChange, change, acceleratedChange)
 end

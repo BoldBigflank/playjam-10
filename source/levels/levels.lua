@@ -3,7 +3,7 @@ LEVELS = {
         name = "Level 1",
         description = "This is the first level",
         difficulty = "Easy",
-        balls = 1
+        balls = 10
     },
     {
         name = "Level 2",

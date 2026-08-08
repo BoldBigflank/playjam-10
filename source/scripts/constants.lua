@@ -4,19 +4,17 @@ OPTIONS_PATH = 'settings'
 
 TAGS = {
     Wall = 1,
-    Pickup = 2,
     Player = 3,
     Ball = 4,
-    Hazard = 5, -- Enemy projectiles are Hazards
-    Enemy = 6,
-    Trigger = 7
+    Arm = 5
 }
 
 Z_INDEXES = {
     Particle = 15,
     Ball = 20,
     Wall = 30,
-    Player = 35,
+    Arm = 40,
+    Player = 50,
     Bullet = 100,
     UI = 1000
 }
@@ -124,4 +122,11 @@ DIRECTIONS = {
     Left = 2,
     Down = 3,
     Right = 4
+}
+
+EVENTS = {
+    ArmCreated = 'ArmCreated',
+    ArmDestroyed = 'ArmDestroyed',
+    ArmCompleted = 'ArmCompleted',
+    CrankChange = 'CrankChange',
 }
