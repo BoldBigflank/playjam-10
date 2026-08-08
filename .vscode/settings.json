@@ -36,5 +36,8 @@
 
     // ====== Playdate Debug Settings ======
     // Output directory for the compiled game bundle (omitting this places it in the project root)
-    "playdate-debug.outputPath": "builds"
+    "playdate-debug.outputPath": "builds",
+    "cSpell.words": [
+        "playdate"
+    ]
 }

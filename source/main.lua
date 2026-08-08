@@ -8,66 +8,68 @@
 import "CoreLibs/graphics"
 import "CoreLibs/ui"
 
+-- Libraries
+import "scripts/libraries/AnimatedSprite"
+import "scripts/libraries/RoomyPlaydate"
+import "scripts/libraries/PDOptions"
+import "scripts/libraries/sequence"
+
+-- Constants
+import "scripts/constants"
+
+-- Singletons
+import "scripts/utils"
+import "scripts/events"
+import "scripts/gameManager"
+
+-- Scenes
+import "scripts/introScene"
+import "scripts/creditsScene"
+import "scripts/optionsScene"
+import "scripts/menuScene"
+
 -- Localizing commonly used globals
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
 
--- Defining player variables
-local playerSize = 10
-local playerVelocity = 3
-local playerX, playerY = 200, 120
+SceneManager = Manager()
 
--- Drawing player image
-local playerImage = gfx.image.new(32, 32)
-gfx.pushContext(playerImage)
-    -- Draw outline
-    gfx.drawRoundRect(4, 3, 24, 26, 1)
-    -- Draw screen
-    gfx.drawRect(7, 6, 18, 12)
-    -- Draw eyes
-    gfx.drawLine(10, 12, 12, 10)
-    gfx.drawLine(12, 10, 14, 12)
-    gfx.drawLine(17, 12, 19, 10)
-    gfx.drawLine(19, 10, 21, 12)
-    -- Draw crank
-    gfx.drawRect(27, 15, 3, 9)
-    -- Draw A/B buttons
-    gfx.drawCircleInRect(16, 20, 4, 4)
-    gfx.drawCircleInRect(21, 20, 4, 4)
-    -- Draw D-Pad
-    gfx.drawRect(8, 22, 6, 2)
-    gfx.drawRect(10, 20, 2, 6)
-gfx.popContext()
+function loadGame()
+    -- Font
+    local font = gfx.font.new('font/topaz_11')
+    math.randomseed(playdate.getSecondsSinceEpoch())
+    gfx.setFont(font)
 
--- Defining helper function
-local function ring(value, min, max)
-	if (min > max) then
-		min, max = max, min
-	end
-	return min + (value - min) % (max - min)
+    -- Menu Items
+    pd.getSystemMenu():addMenuItem('Main Menu', function()
+        SceneManager:enter(MenuScene)
+    end)
+    pd.getSystemMenu():addMenuItem('Credits', function()
+        SceneManager:push(CreditsScene)
+    end)
+    pd.getSystemMenu():addMenuItem('Options', function()
+        SceneManager:push(OptionsScene)
+    end)
+
+
+    GameManager:loadData()
 end
 
--- playdate.update function is required in every project!
-function playdate.update()
-    -- Clear screen
-    gfx.clear()
-    -- Draw crank indicator if crank is docked
-    if pd.isCrankDocked() then
-        pd.ui.crankIndicator:draw()
-    else
-        -- Calculate velocity from crank angle 
-        local crankPosition = pd.getCrankPosition() - 90
-        local xVelocity = math.cos(math.rad(crankPosition)) * playerVelocity
-        local yVelocity = math.sin(math.rad(crankPosition)) * playerVelocity
-        -- Move player
-        playerX += xVelocity
-        playerY += yVelocity
-        -- Loop player position
-        playerX = ring(playerX, -playerSize, 400 + playerSize)
-        playerY = ring(playerY, -playerSize, 240 + playerSize)
-    end
-    -- Draw text
-    gfx.drawTextAligned("Template configured!", 200, 30, kTextAlignment.center)
-    -- Draw player
-    playerImage:drawAnchored(playerX, playerY, 0.5, 0.5)
+function pd.update()
+    pd.timer.updateTimers()
+    gfx.sprite.update()
+    sequence.update()
+    SceneManager:emit('update')
 end
+
+function pd.gameWillTerminate()
+    GameManager:saveData()
+end
+
+function pd.deviceWillSleep()
+    GameManager:saveData()
+end
+
+loadGame()
+SceneManager:enter(MenuScene)
+SceneManager:hook({})
