@@ -7,6 +7,8 @@
 -- Importing libraries used for drawCircleAtPoint and crankIndicator
 import "CoreLibs/graphics"
 import "CoreLibs/ui"
+import "CoreLibs/nineslice"
+
 
 -- Libraries
 import "scripts/libraries/AnimatedSprite"
@@ -27,6 +29,7 @@ import "scripts/introScene"
 import "scripts/creditsScene"
 import "scripts/optionsScene"
 import "scripts/menuScene"
+import "scripts/levelScene"
 
 -- Localizing commonly used globals
 local pd <const> = playdate
@@ -71,5 +74,6 @@ function pd.deviceWillSleep()
 end
 
 loadGame()
-SceneManager:enter(MenuScene)
+-- SceneManager:enter(MenuScene)
+SceneManager:enter(LevelScene)
 SceneManager:hook({})

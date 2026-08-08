@@ -15,7 +15,6 @@ function Player:init()
     self:setCollideRect(0, 0, self:getSize())
     self:setImage(spritesheet:getImage(SPRITES.Player))
     -- self:moveTo(entity.position.x + gameScene.offsetX, entity.position.y + gameScene.offsetY)
-    self:moveTo(100, 100)
     self:setTag(TAGS.Player)
     self:setGroups({ TAGS.Player })
     self:setCollidesWithGroups({ TAGS.Pickup, TAGS.Hazard, TAGS.Enemy, TAGS.Wall, TAGS.Trigger })
@@ -25,6 +24,7 @@ function Player:init()
     self.speed = 3
     self.x = 100
     self.y = 100
+    self:moveTo(self.x, self.y)
     self:add()
 end
 

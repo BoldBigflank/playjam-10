@@ -6,7 +6,7 @@ TAGS = {
     Wall = 1,
     Pickup = 2,
     Player = 3,
-    Bullet = 4,
+    Ball = 4,
     Hazard = 5, -- Enemy projectiles are Hazards
     Enemy = 6,
     Trigger = 7
@@ -14,7 +14,8 @@ TAGS = {
 
 Z_INDEXES = {
     Particle = 15,
-    -- Enemy = 20,
+    Ball = 20,
+    Wall = 30,
     Bullet = 100,
     UI = 1000
 }
@@ -115,4 +116,11 @@ DPAD_CONTROL = {
 CRANK_CONTROL = {
     A = 1,
     DPAD = 2
+}
+
+DIRECTIONS = {
+    Up = 1,
+    Left = 2,
+    Down = 3,
+    Right = 4
 }
