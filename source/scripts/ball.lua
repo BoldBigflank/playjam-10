@@ -23,12 +23,12 @@ function Ball:init()
     self:setImage(spritesheet:getImage(SPRITES.BulletLarge))
     self:setTag(TAGS.Ball)
     self:setGroups({ TAGS.Ball })
-    self:setCollidesWithGroups({ TAGS.Wall, TAGS.Ball })
+    self:setCollidesWithGroups({ TAGS.Wall, TAGS.Ball, TAGS.Arm })
 
 
     -- Settings
-    self.x = 200
-    self.y = 100
+    self.x = math.random(16, 400 - 32)
+    self.y = math.random(16, 240 - 32)
     self.speed = 1
     self.angle = math.random() * 2 * math.pi
     self.rot = 0
@@ -45,6 +45,11 @@ function Ball:update()
             local collision = collisions[i]
             local bounce = collision.bounce
             local touch = collision.touch
+            local other = collision.other
+
+            if other:getTag() == TAGS.Arm then
+                other:hitByBall()
+            end
 
             -- set the angle to the vector created by touch to bounce
             if touch and bounce then

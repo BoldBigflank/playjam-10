@@ -5,6 +5,8 @@ import "scripts/arm"
 
 class('Player').extends(gfx.sprite)
 
+local COOLDOWN = 60
+
 function Player:init()
     -- Sprite
     local spritesheet = Utils:getSpritesheet()
@@ -22,11 +24,12 @@ function Player:init()
     self.collideWidth = self.width - 4
     self.collideHeight = self.height - 4
     self.rot = 0
-    self.speed = 3
+    self.speed = 2
     self.x = 100
     self.y = 100
     self.armsCount = 0
-    self.facingVertical = false
+    self.facingVertical = true
+    self.cooldown = 0
     self:moveTo(self.x, self.y)
     self:add()
 
@@ -36,6 +39,7 @@ function Player:init()
     end)
     Events:on(EVENTS.ArmDestroyed, function()
         self.armsCount = self.armsCount - 1
+        self.cooldown = COOLDOWN
     end)
     Events:on(EVENTS.ArmCompleted, function()
         self.armsCount = self.armsCount - 1
@@ -52,6 +56,7 @@ end
 
 function Player:isAbleToCreateArms()
     local isAble = true
+    if self.cooldown > 0 then return false end
     if self.armsCount > 0 then return false end
     local actualX, actualY, collisions, collisionCount = self:checkCollisions(self:getPosition())
     if collisionCount == 0 then return true end
@@ -67,6 +72,7 @@ function Player:isAbleToCreateArms()
 end
 
 function Player:update()
+    self.cooldown = math.max(self.cooldown - 1, 0)
     self:setCollideRect(
         0.5 * (self.width - self.collideWidth),
         0.5 * (self.height - self.collideHeight),
