@@ -26,7 +26,6 @@ function Playfield:init(level)
     -- local graph = pd.pathfinder.graph.new2DGrid(self.width, self.height, false)
     -- self.graph = graph
     table.insert(self.eventIds, Events:on(EVENTS.CellsClaimed, function(x1, y1, x2, y2)
-        print('cells claimed', x1, y1, x2, y2)
         -- from x1, y1 to x2, y2, set the cells to unwalkable
         for x = x1, x2 do
             for y = y1, y2 do
@@ -44,7 +43,6 @@ function Playfield:getCell(x, y)
 end
 
 function Playfield:setCell(x, y, state)
-    if state ~= CELL_STATES.ACTIVE then print('setting cell', x, y, 'to', state) end
     self.cells[(x - 1) + (y - 1) * self.width] = state
 end
 
@@ -66,8 +64,7 @@ function Playfield:updateActiveCells()
         -- flood fill cells
         self:floodFill(ballX, ballY, { { ballX, ballY } })
     end
-    print('active cells count', self.activeCellsCount)
-    self:printCells()
+    -- self:printCells()
     Events:emit(EVENTS.PlayfieldUpdated, self.activeCellsCount, self.totalCells)
 end
 

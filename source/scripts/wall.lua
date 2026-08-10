@@ -31,6 +31,5 @@ end
 
 function Wall:update()
     self:setCollideRect(0, 0, self:getSize())
-    -- print(self.x, self.y, self.width, self.height)
     -- self:setSize(self.width, self.height)
 end

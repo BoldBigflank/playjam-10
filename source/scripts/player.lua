@@ -91,7 +91,6 @@ function Player:update()
     -- Move with the direction pad
     if self:isAbleToCreateArms() then
         change, acceleratedChange = pd.getCrankChange()
-        print('change: ' .. change .. ' acceleratedChange: ' .. acceleratedChange)
         if change > 3 then
             -- place arms at the player
             local arm = Arm({

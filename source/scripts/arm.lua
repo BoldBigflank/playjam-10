@@ -80,7 +80,6 @@ function Arm:update()
         local other = collision.other
         local touch = collision.touch
         if other:getTag() == TAGS.Wall or other:getTag() == TAGS.Arm then
-            print('arm hit a wall')
             self.state = STATE.Completed
             Events:emit(EVENTS.ArmCompleted, self)
             Particles:emit('explode', touch.x, touch.y)

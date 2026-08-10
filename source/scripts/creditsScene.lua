@@ -15,7 +15,6 @@ local text = {
 }
 
 function CreditsScene:enter(previous, ...)
-    print('credits scene enter')
     if (previous.className == self.className) then SceneManager:pop() end
     CreditsScene.super.enter(self, previous, ...)
     local bgImage = gfx.image.new(400, 240)
@@ -77,7 +76,6 @@ function CreditsScene:AButtonDown()
 end
 
 function CreditsScene:AButtonUp()
-    print('credits scene AButtonUp')
     if not self.canAdvance then return end
     -- SoundPlayer:playSound(SOUNDS.Shoot)
     SceneManager:pop()
