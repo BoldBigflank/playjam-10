@@ -58,6 +58,10 @@ function Player:isAbleToCreateArms()
     local isAble = true
     if self.cooldown > 0 then return false end
     if self.armsCount > 0 then return false end
+    -- No buttons pressed
+    if pd.buttonIsPressed(pd.kButtonUp) or pd.buttonIsPressed(pd.kButtonDown) or pd.buttonIsPressed(pd.kButtonLeft) or pd.buttonIsPressed(pd.kButtonRight) then
+        return false
+    end
     local actualX, actualY, collisions, collisionCount = self:checkCollisions(self:getPosition())
     if collisionCount == 0 then return true end
     for i = 1, collisionCount do
@@ -82,7 +86,8 @@ function Player:update()
     -- Move with the direction pad
     if self:isAbleToCreateArms() then
         change, acceleratedChange = pd.getCrankChange()
-        if change > 0 then
+        print('change: ' .. change .. ' acceleratedChange: ' .. acceleratedChange)
+        if change > 3 then
             -- place arms at the player
             local arm = Arm({
                 x = self.x,

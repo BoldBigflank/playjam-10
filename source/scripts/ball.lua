@@ -66,7 +66,7 @@ end
 
 function Ball:collisionResponse(other)
     local tag = other:getTag()
-    if tag == TAGS.Player or tag == TAGS.Ball then
+    if tag == TAGS.Player then
         return gfx.sprite.kCollisionTypeOverlap
     end
     return gfx.sprite.kCollisionTypeBounce
