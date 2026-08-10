@@ -60,6 +60,10 @@ function Ball:update()
     end
 end
 
+function Ball:getCellCoords()
+    return Utils:cellCoordsFromPoint(self.x, self.y)
+end
+
 function Ball:collisionResponse(other)
     local tag = other:getTag()
     if tag == TAGS.Player or tag == TAGS.Ball then

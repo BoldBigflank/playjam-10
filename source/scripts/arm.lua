@@ -43,7 +43,6 @@ function Arm:init(entity)
         if self.state ~= STATE.Active then return end
         local frameDistance = math.min(change * self.speed, MAX_SPEED)
         self.length = math.max(self.length + frameDistance, 1)
-        print('length: ' .. self.length)
         self:applySize()
     end)
     Events:emit(EVENTS.ArmCreated, self)
@@ -83,8 +82,14 @@ function Arm:update()
         local collision = collisions[i]
         local other = collision.other
         if other:getTag() == TAGS.Wall or other:getTag() == TAGS.Arm then
+            print('arm hit a wall')
             self.state = STATE.Completed
             Events:emit(EVENTS.ArmCompleted, self)
+            -- replace the arm with a wall
+            -- account for the center of the arm (wall center is 0, 0)
+            local x, y, width, height = self:getBounds()
+            Events:emit(EVENTS.CellsClaimed, Utils:cellCoordsFromRect(x, y, width, height))
+            break
         end
     end
 end

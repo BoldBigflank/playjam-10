@@ -67,4 +67,24 @@ function Utils:textSpriteInRect(text, width, height)
     return textSprite
 end
 
+function Utils:cellCoordsFromPoint(x, y)
+    return math.floor(x / CELL_SIZE) + 1, math.floor(y / CELL_SIZE) + 1
+end
+
+function Utils:cellCoordsFromRect(x, y, width, height)
+    local x1, y1 = Utils:cellCoordsFromPoint(x, y)
+    local x2, y2 = Utils:cellCoordsFromPoint(x + width, y + height)
+    return x1, y1, x2, y2
+end
+
+function Utils:snapToCellCoords(x, y, width, height)
+    -- snap the top left and the bottom right to the nearest cell coord
+    -- returns x, y, width, height
+    local x1, y1 = math.floor((x + 0.5 * CELL_SIZE) / CELL_SIZE) * CELL_SIZE,
+        math.floor((y + 0.5 * CELL_SIZE) / CELL_SIZE) * CELL_SIZE
+    local x2, y2 = math.floor((x + width + 0.5 * CELL_SIZE) / CELL_SIZE) * CELL_SIZE,
+        math.floor((y + height + 0.5 * CELL_SIZE) / CELL_SIZE) * CELL_SIZE
+    return x1, y1, x2 - x1, y2 - y1
+end
+
 Utils = Utils()

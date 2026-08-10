@@ -63,7 +63,6 @@ function Player:isAbleToCreateArms()
     for i = 1, collisionCount do
         local collision = collisions[i]
         local other = collision.other
-        print('other: ' .. other:getTag())
         if other:getTag() == TAGS.Wall or other:getTag() == TAGS.Arm then
             isAble = false
         end
@@ -83,7 +82,6 @@ function Player:update()
     -- Move with the direction pad
     if self:isAbleToCreateArms() then
         change, acceleratedChange = pd.getCrankChange()
-        print('change: ' .. change .. ' acceleratedChange: ' .. acceleratedChange)
         if change > 0 then
             -- place arms at the player
             local arm = Arm({

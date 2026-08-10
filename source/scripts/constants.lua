@@ -2,6 +2,8 @@ SAVEDATA_VERSION = '1'
 
 OPTIONS_PATH = 'settings'
 
+CELL_SIZE = 8
+
 TAGS = {
     Wall = 1,
     Player = 3,
@@ -129,4 +131,5 @@ EVENTS = {
     ArmDestroyed = 'ArmDestroyed',
     ArmCompleted = 'ArmCompleted',
     CrankChange = 'CrankChange',
+    CellsClaimed = 'CellsClaimed',
 }
