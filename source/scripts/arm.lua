@@ -42,7 +42,7 @@ function Arm:init(entity)
     Events:on(EVENTS.CrankChange, function(change, acceleratedChange)
         if self.state ~= STATE.Active then return end
         local frameDistance = math.min(change * self.speed, MAX_SPEED)
-        self.length = math.max(self.length + frameDistance, 1)
+        self.length = math.max(self.length + frameDistance, 8)
         self:applySize()
     end)
     Events:emit(EVENTS.ArmCreated, self)
@@ -68,9 +68,6 @@ function Arm:draw(x, y, width, height)
 end
 
 function Arm:collisionResponse(other)
-    if other:getTag() == TAGS.Player then
-        return gfx.sprite.kCollisionTypeOverlap
-    end
     return gfx.sprite.kCollisionTypeOverlap
 end
 

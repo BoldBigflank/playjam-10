@@ -55,19 +55,24 @@ function Player:collisionResponse(other)
 end
 
 function Player:isAbleToCreateArms()
-    local isAble = true
-    if self.cooldown > 0 then return false end
-    if self.armsCount > 0 then return false end
     -- No buttons pressed
-    if pd.buttonIsPressed(pd.kButtonUp) or pd.buttonIsPressed(pd.kButtonDown) or pd.buttonIsPressed(pd.kButtonLeft) or pd.buttonIsPressed(pd.kButtonRight) then
-        return false
-    end
+    if pd.buttonIsPressed(pd.kButtonUp) then return false end
+    if pd.buttonIsPressed(pd.kButtonDown) then return false end
+    if pd.buttonIsPressed(pd.kButtonLeft) then return false end
+    if pd.buttonIsPressed(pd.kButtonRight) then return false end
+    -- Not already controlling an arm
+    if self.armsCount > 0 then return false end
+    -- Not on cooldown
+    if self.cooldown > 0 then return false end
+
+    -- Collides with nothing else
+    local isAble = true
     local actualX, actualY, collisions, collisionCount = self:checkCollisions(self:getPosition())
     if collisionCount == 0 then return true end
     for i = 1, collisionCount do
         local collision = collisions[i]
         local other = collision.other
-        if other:getTag() == TAGS.Wall or other:getTag() == TAGS.Arm then
+        if other:getTag() == TAGS.Wall or other:getTag() == TAGS.Arm or other:getTag() == TAGS.Ball then
             isAble = false
         end
     end

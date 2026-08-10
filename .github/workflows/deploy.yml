@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build for Playdate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get Playdate SDK
+        uses: idleberg/setup-playdate-sdk@v3.0.0
+        with:
+          quiet: true
+      - name: Write File
+        uses: DamianReeves/write-file-action@v1.3
+        with:
+          path: "source/pdxinfo"
+          write-mode: overwrite
+          contents: |-
+            name=Stretchy Wrangler
+            author=Alex Swan
+            description=Made for Playjam 10
+            bundleID=com.alexboldit.playjam10
+            imagePath=launcher/
+            version=1.0.0
+            buildNumber=${{ github.run_number }}
+      - name: Build PDX
+        run: pdc source StretchyWrangler.pdx
+      - name: Zip PDX
+        run: zip -r StretchyWrangler.pdx.zip StretchyWrangler.pdx
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: StretchyWrangler.pdx.zip
+          path: StretchyWrangler.pdx.zip
+
+  itch:
+    name: Upload to Itch.io
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: StretchyWrangler.pdx.zip
+          path: ./
+
+      - name: Butler Upload
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: playdate
+          ITCH_GAME: ${{ secrets.ITCH_GAME }}
+          ITCH_USER: ${{ secrets.ITCH_USER }}
+          PACKAGE: StretchyWrangler.pdx.zip

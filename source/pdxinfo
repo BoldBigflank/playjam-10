@@ -1,6 +1,8 @@
-name=Game
-author=
-description=
-bundleID=
+# Note - This is overwritten in the deploy.yml
+name=Stretchy Wrangler
+author=Alex Swan
+description=Made for Playjam 10
+bundleID=com.alexboldit.playjam10
 version=1.0.0
 buildNumber=1
+imagePath=launcher/
