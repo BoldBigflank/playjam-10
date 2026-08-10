@@ -34,7 +34,11 @@ function LevelScene:enter(previous)
         self:updateHearts()
         if GameManager:getLives() <= 0 then
             self.ended = true
-            SceneManager:enter(LevelEndScene, "Ran out of lives", true)
+            Particles:emit('death', self.player.x, self.player.y)
+            -- wait 1 second
+            pd.timer.performAfterDelay(1000, function()
+                SceneManager:enter(LevelEndScene, "Ran out of lives", true)
+            end)
         end
     end))
 end
@@ -108,6 +112,8 @@ function LevelScene:setupEntities()
     self.walls[2] = Wall({ x = 400 - 64, y = 0, width = 64, height = 240 })       -- right wall
     self.walls[3] = Wall({ x = 16, y = 0, width = 400 - 80, height = 16 })        -- top wall
     self.walls[4] = Wall({ x = 16, y = 240 - 16, width = 400 - 80, height = 16 }) -- bottom wall
+
+    Particles:emit('teleport', self.player.x, self.player.y)
 end
 
 function LevelScene:getBalls()

@@ -78,10 +78,12 @@ function Arm:update()
     for i = 1, collisionCount do
         local collision = collisions[i]
         local other = collision.other
+        local touch = collision.touch
         if other:getTag() == TAGS.Wall or other:getTag() == TAGS.Arm then
             print('arm hit a wall')
             self.state = STATE.Completed
             Events:emit(EVENTS.ArmCompleted, self)
+            Particles:emit('explode', touch.x, touch.y)
             -- replace the arm with a wall
             -- account for the center of the arm (wall center is 0, 0)
             local x, y, width, height = self:getBounds()

@@ -20,6 +20,7 @@ import "scripts/libraries/sequence"
 import "scripts/constants"
 
 -- Singletons
+import "scripts/particles"
 import "scripts/utils"
 import "scripts/events"
 import "scripts/gameManager"

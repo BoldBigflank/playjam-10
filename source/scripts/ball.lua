@@ -30,8 +30,7 @@ function Ball:init()
     self.x = math.random(16, 400 - 32)
     self.y = math.random(16, 240 - 32)
     self.speed = 1
-    self.angle = math.random() * 2 * math.pi
-    self.rot = 0
+    self.angle = math.random(0, 3) * 90 + 45
 
     self:moveTo(self.x, self.y)
     self:add()
@@ -46,9 +45,16 @@ function Ball:update()
             local bounce = collision.bounce
             local touch = collision.touch
             local other = collision.other
+            local type = collision.type
+
+            if type == gfx.sprite.kCollisionTypeBounce then
+                local puff = Particles:emit('puff', touch.x, touch.y)
+                puff:setRotation(math.random(0, 359))
+            end
 
             if other:getTag() == TAGS.Arm then
                 other:hitByBall()
+                Particles:emit('explode', touch.x, touch.y)
             end
 
             -- set the angle to the vector created by touch to bounce

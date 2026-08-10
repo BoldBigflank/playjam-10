@@ -17,9 +17,6 @@ function MenuScene:enter(previous)
         { label = "Options",  value = "options" },
         { label = "Credits",  value = "credits" }
     }
-    if GameManager:getLevelIndex() > 1 then
-        table.insert(options, 1, { label = "Continue", value = "continue" })
-    end
     self.options = options
     gridview:setNumberOfRows(#options)
     gridview:setCellPadding(0, 0, 5, 0)
@@ -73,9 +70,7 @@ function MenuScene:AButtonUp()
     local selected = self.options[self.gridview:getSelectedRow()]
     -- SoundPlayer:playSound(SOUNDS.Shoot)
 
-    if selected.value == 'continue' then
-        -- SceneManager:enter(MissionBriefingScene)
-    elseif selected.value == 'new' then
+    if selected.value == 'new' then
         GameManager:reset()
         SceneManager:push(LevelSelectScene)
     elseif selected.value == 'options' then
