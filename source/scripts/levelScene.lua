@@ -28,7 +28,7 @@ function LevelScene:setupEntities()
     self.playfield = Playfield(self)
 
     self.balls = {}
-    for i = 1, LEVELS[1].balls do
+    for i = 1, GameManager:getBallCount() do
         self.balls[i] = Ball()
     end
 

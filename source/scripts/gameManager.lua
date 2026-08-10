@@ -6,10 +6,19 @@ local gfx <const> = pd.graphics
 function GameManager:init()
     self.score = 0
     self.levelIndex = 1
+    self.ballCount = 0
 end
 
 function GameManager:getLevelIndex()
     return self.levelIndex
+end
+
+function GameManager:getBallCount()
+    return self.ballCount
+end
+
+function GameManager:setBallCount(ballCount)
+    self.ballCount = ballCount
 end
 
 function GameManager:saveData()

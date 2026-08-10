@@ -77,7 +77,7 @@ function MenuScene:AButtonUp()
         -- SceneManager:enter(MissionBriefingScene)
     elseif selected.value == 'new' then
         GameManager:reset()
-        SceneManager:enter(LevelSelectScene)
+        SceneManager:push(LevelSelectScene)
     elseif selected.value == 'options' then
         SceneManager:push(OptionsScene)
     elseif selected.value == 'credits' then

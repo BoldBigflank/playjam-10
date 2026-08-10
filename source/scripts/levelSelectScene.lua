@@ -69,6 +69,7 @@ end
 function LevelSelectScene:AButtonUp()
     local selected = self.gridview:getSelectedRow()
     print(selected)
+    GameManager:setBallCount(LEVELS[selected].balls)
     SceneManager:enter(LevelScene)
 end
 

@@ -74,6 +74,6 @@ function pd.deviceWillSleep()
 end
 
 loadGame()
--- SceneManager:enter(MenuScene)
-SceneManager:enter(LevelScene)
+SceneManager:enter(MenuScene)
+-- SceneManager:enter(LevelScene)
 SceneManager:hook({})

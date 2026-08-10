@@ -7,20 +7,23 @@ local gfx <const> = pd.graphics
 class('CreditsScene').extends(PauseRoom)
 
 local text = {
-    'Alex Swan created this game.\nHe does game dev and web\ndev in Chicago.',
-    'Created in one week for\nUncrank\'d Game Jam 2024\nThemes: Reflective, Float',
-    'Made using Aseprite, LDtk,\nSquidGod Tutorials,\nand AnimatedSprite lib',
+    'Alex Swan created this game.\nHe does game dev and\nweb development in Chicago.',
+    'Created in one week for\nPlayJam 10 (August 2026)\nTheme: Swap',
+    'Made using Aseprite,\nSquidGod Tutorials,\nand Roomy and AnimatedSprite libs',
     'Some sounds and images were\nderived from Kenney\'s\nAll-in-1 Asset Pack.',
     ''
 }
 
 function CreditsScene:enter(previous, ...)
+    print('credits scene enter')
     if (previous.className == self.className) then SceneManager:pop() end
     CreditsScene.super.enter(self, previous, ...)
-    local bgImage = gfx.image.new('images/intro')
-    local bgSprite = gfx.sprite.new(bgImage)
+    local bgImage = gfx.image.new(400, 240)
     gfx.pushContext(bgImage)
-    -- self.gridview:drawInRect(0, 0, 200, 100)
+    gfx.setColor(gfx.kColorWhite)
+    gfx.fillRect(0, 0, 400, 240)
+    gfx.setColor(gfx.kColorBlack)
+    local bgSprite = gfx.sprite.new(bgImage)
     bgSprite:setCenter(0, 0)
     bgSprite:moveTo(0, 240)
     bgSprite:add()
@@ -74,7 +77,12 @@ function CreditsScene:AButtonDown()
 end
 
 function CreditsScene:AButtonUp()
+    print('credits scene AButtonUp')
     if not self.canAdvance then return end
     -- SoundPlayer:playSound(SOUNDS.Shoot)
+    SceneManager:pop()
+end
+
+function CreditsScene:BButtonUp()
     SceneManager:pop()
 end
