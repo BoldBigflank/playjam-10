@@ -24,7 +24,7 @@ function Arm:init(entity)
     self.direction = entity.direction or DIRECTIONS.Up
     self.state = STATE.Active
     self.failed = false
-    self.speed = 0.2
+    self.speed = 0.25
 
     if self.direction == DIRECTIONS.Right then
         self:setCenter(0, 0.5)

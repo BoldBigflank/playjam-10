@@ -58,6 +58,9 @@ SPRITES = {
     AButton = 16 * 2 + 5,
     BButton = 16 * 2 + 6,
     DownButton = 16 * 2 + 7,
+    SmallHeart = 16 * 2 + 8,
+    Heart = 16 * 2 + 9,
+    BigHeart = 16 * 2 + 10,
     BigBug = 16 * 3 + 1,
     AmmoPowerup = 16 * 3 + 5,
     HealthPowerup = 16 * 3 + 6,
@@ -132,4 +135,5 @@ EVENTS = {
     ArmCompleted = 'ArmCompleted',
     CrankChange = 'CrankChange',
     CellsClaimed = 'CellsClaimed',
+    PlayfieldUpdated = 'PlayfieldUpdated',
 }

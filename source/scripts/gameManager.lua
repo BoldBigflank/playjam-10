@@ -7,10 +7,23 @@ function GameManager:init()
     self.score = 0
     self.levelIndex = 1
     self.ballCount = 0
+    self.lives = 3
+end
+
+function GameManager:getLives()
+    return self.lives
+end
+
+function GameManager:setLives(lives)
+    self.lives = lives
 end
 
 function GameManager:getLevelIndex()
     return self.levelIndex
+end
+
+function GameManager:setLevelIndex(levelIndex)
+    self.levelIndex = levelIndex
 end
 
 function GameManager:getBallCount()

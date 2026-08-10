@@ -11,8 +11,10 @@ local CELL_STATES = {
 
 function Playfield:init(level)
     self.level = level
+    self.eventIds = {}
     self.width = 400 / CELL_SIZE
     self.height = 240 / CELL_SIZE
+    self.totalCells = self.width * self.height
     -- 1d array of active cells
     self.cells = table.create(self.width * self.height)
     self.activeCellsCount = self.width * self.height
@@ -23,7 +25,7 @@ function Playfield:init(level)
     end
     -- local graph = pd.pathfinder.graph.new2DGrid(self.width, self.height, false)
     -- self.graph = graph
-    Events:on(EVENTS.CellsClaimed, function(x1, y1, x2, y2)
+    table.insert(self.eventIds, Events:on(EVENTS.CellsClaimed, function(x1, y1, x2, y2)
         print('cells claimed', x1, y1, x2, y2)
         -- from x1, y1 to x2, y2, set the cells to unwalkable
         for x = x1, x2 do
@@ -34,7 +36,7 @@ function Playfield:init(level)
             end
         end
         self:updateActiveCells()
-    end)
+    end))
 end
 
 function Playfield:getCell(x, y)
@@ -66,6 +68,7 @@ function Playfield:updateActiveCells()
     end
     print('active cells count', self.activeCellsCount)
     self:printCells()
+    Events:emit(EVENTS.PlayfieldUpdated, self.activeCellsCount, self.totalCells)
 end
 
 function Playfield:floodFill(x, y, previousCells)
@@ -94,4 +97,11 @@ function Playfield:printCells()
         cells = cells .. '\n'
     end
     print(cells)
+end
+
+function Playfield:leave()
+    for _, id in ipairs(self.eventIds or {}) do
+        Events:offById(id)
+    end
+    self.eventIds = {}
 end
