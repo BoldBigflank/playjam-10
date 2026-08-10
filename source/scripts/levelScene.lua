@@ -16,17 +16,9 @@ function LevelScene:enter(previous)
     self:resetScene()
     self:setupEntities()
 
-    -- Progress UI Bar sprite
-    self.progressBar = gfx.sprite.new()
-    self.progressBar:moveTo(0, 0)
-    self.progressBar:setZIndex(100)
-    self.progressBar:setVisible(true)
-    self.progressBar:add()
-    self:updateProgress(0)
-
     table.insert(self.eventIds, Events:on(EVENTS.PlayfieldUpdated, function(activeCellsCount, totalCells)
         if self.ended then return end
-        self:updateProgress(math.floor((1 - (activeCellsCount / totalCells)) / 0.7))
+        self:updateProgress((1 - (activeCellsCount / totalCells)) / 0.7)
     end))
     table.insert(self.eventIds, Events:on(EVENTS.ArmDestroyed, function(arm)
         if self.ended then return end
@@ -62,14 +54,15 @@ function LevelScene:resetScene()
 end
 
 function LevelScene:updateProgress(progress)
+    print('updateProgress', progress)
     progress = math.clamp(progress, 0, 1)
 
-    local progressImage = self.progressBar:getImage(400, 16)
+    local progressImage = gfx.image.new(320 - 4, 16 - 4)
     gfx.pushContext(progressImage)
     gfx.setColor(gfx.kColorWhite)
-    gfx.fillRect(0, 0, 400, 16)
+    gfx.fillRect(0, 0, 320 - 4, 16 - 4)
     gfx.setColor(gfx.kColorBlack)
-    gfx.fillRect(0, 0, 400 * progress, 16)
+    gfx.fillRect(0, 0, (320 - 4) * progress, 16 - 4)
     gfx.popContext()
     self.progressBar:setImage(progressImage)
     if progress >= 1 then
@@ -107,11 +100,27 @@ function LevelScene:setupEntities()
         self.balls[i] = Ball()
     end
 
+
+
     self.walls = {}
     self.walls[1] = Wall({ x = 0, y = 0, width = 16, height = 240 })              -- left wall
     self.walls[2] = Wall({ x = 400 - 64, y = 0, width = 64, height = 240 })       -- right wall
     self.walls[3] = Wall({ x = 16, y = 0, width = 400 - 80, height = 16 })        -- top wall
     self.walls[4] = Wall({ x = 16, y = 240 - 16, width = 400 - 80, height = 16 }) -- bottom wall
+    -- move over the bottom wall
+    -- Progress UI Bar sprite
+    local progressBarImage = gfx.image.new(320 - 4, 16 - 4)
+    self.progressBar = gfx.sprite.new(progressBarImage)
+    self.progressBar:setCenter(0, 0)
+    self.progressBar:moveTo(16 + 2, 240 - 16 + 2)
+    self.progressBar:setZIndex(Z_INDEXES.UI)
+    self.progressBar:setVisible(true)
+    self.progressBar:add()
+    self:updateProgress(0)
+
+
+
+
 
     Particles:emit('teleport', self.player.x, self.player.y)
 end
