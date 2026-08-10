@@ -50,6 +50,7 @@ function Ball:update()
             if type == gfx.sprite.kCollisionTypeBounce then
                 local puff = Particles:emit('puff', touch.x, touch.y)
                 puff:setRotation(math.random(0, 359))
+                SoundPlayer:playSound(SOUNDS.Laser)
             end
 
             if other:getTag() == TAGS.Arm then

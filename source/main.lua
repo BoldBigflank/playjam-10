@@ -20,6 +20,7 @@ import "scripts/libraries/sequence"
 import "scripts/constants"
 
 -- Singletons
+import "scripts/soundPlayer"
 import "scripts/particles"
 import "scripts/utils"
 import "scripts/events"

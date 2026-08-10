@@ -23,6 +23,7 @@ function LevelScene:enter(previous)
     table.insert(self.eventIds, Events:on(EVENTS.ArmDestroyed, function(arm)
         if self.ended then return end
         GameManager:setLives(GameManager:getLives() - 1)
+        SoundPlayer:playSound(SOUNDS.Hit3)
         self:updateHearts()
         if GameManager:getLives() <= 0 then
             self.ended = true
@@ -123,6 +124,7 @@ function LevelScene:setupEntities()
 
 
     Particles:emit('teleport', self.player.x, self.player.y)
+    SoundPlayer:playSound(SOUNDS.Teleport)
 end
 
 function LevelScene:getBalls()

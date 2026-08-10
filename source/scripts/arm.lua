@@ -87,6 +87,7 @@ function Arm:update()
             -- account for the center of the arm (wall center is 0, 0)
             local x, y, width, height = self:getBounds()
             Events:emit(EVENTS.CellsClaimed, Utils:cellCoordsFromRect(x, y, width, height))
+            SoundPlayer:playSound(SOUNDS.Shoot)
             break
         end
     end
